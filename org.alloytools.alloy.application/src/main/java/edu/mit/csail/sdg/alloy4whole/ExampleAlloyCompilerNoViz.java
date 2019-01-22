@@ -58,6 +58,22 @@ public final class ExampleAlloyCompilerNoViz {
                 System.out.print("Relevance Warning:\n" + (msg.toString().trim()) + "\n\n");
                 System.out.flush();
             }
+	    
+		/** {@inheritDoc} */
+		@Override
+		public void translate(String solver, int bitwidth, int maxseq, int skolemDepth, int symmetry) {
+			lastTime = System.currentTimeMillis();
+			System.out.print("Solver=" + solver + " Bitwidth=" + bitwidth + " MaxSeq=" + maxseq + (skolemDepth == 0 ? "" : " SkolemDepth=" + skolemDepth) + " Symmetry=" + (symmetry > 0 ? ("" + symmetry) : "OFF") + '\n');
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public void solve(final int primaryVars, final int totalVars, final int clauses) {
+			System.out.print("" + totalVars + " vars. " + primaryVars + " primary vars. " + clauses + " clauses. " + (System.currentTimeMillis() - lastTime) + "ms.\n");
+			System.out.println("SAT Solving Time = " + (System.currentTimeMillis() - lastTime) + "ms.\n");
+			lastTime = System.currentTimeMillis();
+		}
+		private long          lastTime  = 0;
         };
 
         for (String filename : args) {
